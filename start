@@ -12,7 +12,8 @@ PORT=${4:-"8080"}
 echo "PORT: $PORT"
 
 
-start-stop-daemon --start -b --exec /bin/consul -- agent -data-dir /tmp/consul -bind "$IP" -join "$CONSUL"
+#start-stop-daemon --start -b --exec /bin/consul -- agent -data-dir /tmp/consul -bind "$IP" -join "$CONSUL"
+nohup /bin/consul agent -data-dir /tmp/consul -bind "$IP" -join "$CONSUL" &
 sleep 5
 
 
@@ -22,3 +23,5 @@ then
 	curl -XPUT http://localhost:8500/v1/agent/service/register -d '{ "ID": "'"$SERVICE"'", "Name": "'"$SERVICE"'", "Tags": [ "v1" ], "Port": '"$PORT"', "Check": { "Script": "'"$COMMAND"'", "Interval": "10s" } }'
 
 fi
+
+fg
