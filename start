@@ -1,13 +1,24 @@
 #!/bin/bash
+
 SERVICE=${1:-"service"}
+echo "SERVICE: $SERVICE"
 CONSUL=${2:-"192.168.1.1"}
+echo "CONSUL: $CONSUL"
 IP=$(ifconfig ethwe | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
+echo "IP: $IP"
 COMMAND="$3"
+echo "COMMAND: $COMMAND"
 PORT=${4:-"8080"}
+echo "PORT: $PORT"
+
 
 start-stop-daemon --start -b --exec /bin/consul -- agent -data-dir /tmp/consul -bind "$IP" -join "$CONSUL"
+sleep 5
 
-if [[ -z "$COMMAND" ]]
+
+if [[ -n "$COMMAND" ]]
 then
-	curl -XPUT http://localhost:8500/v1/agent/service/register -d '{ "ID": "$SERVICE", "Name": "$SERVICE", "Tags": [ "v1" ], "Port": "$PORT", "Check": { "Script": "$COMMAND", "Interval": "10s" } }'
+	echo curl -XPUT http://localhost:8500/v1/agent/service/register -d '{ "ID": "'"$SERVICE"'", "Name": "'"$SERVICE"'", "Tags": [ "v1" ], "Port": '"$PORT"', "Check": { "Script": "'"$COMMAND"'", "Interval": "10s" } }'
+	curl -XPUT http://localhost:8500/v1/agent/service/register -d '{ "ID": "'"$SERVICE"'", "Name": "'"$SERVICE"'", "Tags": [ "v1" ], "Port": '"$PORT"', "Check": { "Script": "'"$COMMAND"'", "Interval": "10s" } }'
+
 fi
