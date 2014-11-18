@@ -5,7 +5,7 @@ IP=$(ifconfig ethwe | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([
 COMMAND="$3"
 PORT=${4:-"8080"}
 
-start-stop-daemon --start -b --exec /usr/local/bin/consul -- agent -data-dir /tmp/consul -bind "$IP" -join "$CONSUL"
+start-stop-daemon --start -b --exec /bin/consul -- agent -data-dir /tmp/consul -bind "$IP" -join "$CONSUL"
 
 if [[ -z "$COMMAND" ]]
 then
