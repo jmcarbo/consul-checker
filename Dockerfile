@@ -27,5 +27,5 @@ RUN chmod +x /usr/local/bin/start
 
 EXPOSE 9000
 
-ENTRYPOINT [ /usr/local/bin/start  ]
+ENTRYPOINT [   ]
 CMD [ ]
