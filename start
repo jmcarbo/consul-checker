@@ -23,4 +23,4 @@ then
 	curl -XPUT http://localhost:8500/v1/agent/service/register -d '{ "ID": "'"$SERVICE"'", "Name": "'"$SERVICE"'", "Tags": [ "v1" ], "Port": '"$PORT"', "Check": { "Script": "'"$COMMAND"'", "Interval": "10s" } }'
 
 fi
-
+sleep infinity
