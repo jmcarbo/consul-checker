@@ -1,0 +1,13 @@
+#!/bin/bash
+SERVICE=${1:-"service"}
+CONSUL=${2:-"192.168.1.1"}
+IP=$(ifconfig ethwe | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
+COMMAND="$3"
+PORT=${4:-"8080"}
+
+start-stop-daemon --start -b --exec /usr/local/bin/consul -- agent -data-dir /tmp/consul -bind "$IP" -join "$CONSUL"
+
+if [[ -z "$COMMAND" ]]
+then
+	curl -XPUT http://localhost:8500/v1/agent/service/register -d '{ "ID": "$SERVICE", "Name": "$SERVICE", "Tags": [ "v1" ], "Port": "$PORT", "Check": { "Script": "$COMMAND", "Interval": "10s" } }'
+fi

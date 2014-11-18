@@ -22,7 +22,10 @@ ENV GOROOT /usr/local/go
 #RUN go get
 #RUN go build
 
+ADD start /usr/local/bin/start
+RUN chmod +x /usr/local/bin/start
+
 EXPOSE 9000
 
-ENTRYPOINT [ ]
+ENTRYPOINT [ /usr/local/bin/start  ]
 CMD [ ]
