@@ -5,7 +5,7 @@ RUN echo 'deb-src http://ppa.launchpad.net/mercurial-ppa/releases/ubuntu precise
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 323293EE
 
 RUN apt-get update
-RUN apt-get install -y curl git bzr mercurial unzip wget 
+RUN apt-get install -y curl git bzr mercurial unzip wget mysql-client
 
 ADD https://dl.bintray.com/mitchellh/consul/0.4.1_linux_amd64.zip /tmp/consul.zip
 RUN cd /bin && unzip /tmp/consul.zip && chmod +x /bin/consul && rm /tmp/consul.zip
